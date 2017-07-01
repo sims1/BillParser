@@ -31,6 +31,11 @@ std::vector<std::string> splitString(const string &str, const string separator)
     return result;
 }
 
+bool isSubStringOf(const std::string &substring, const std::string &str)
+{
+    return (str.find(substring) != std::string::npos);
+}
+    
 int stringToNumber(const string &str)
 {
     assert(str.length() < 10);

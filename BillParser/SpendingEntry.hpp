@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Ling. All rights reserved.
 //
 
-#ifndef SpendingEntry_hpp
-#define SpendingEntry_hpp
+#pragma once
 
 #include <string>
 
@@ -20,23 +19,38 @@ public:
         int year;
     };
     
-    SpendingEntry(const std::string &);
+    enum EntryKind {
+        NONE, SPENDING, INCOME
+    };
     
+    enum ParseKind {
+        PC, CIBC_VISA
+    };
+    
+public:
+    SpendingEntry(const std::string &, const ParseKind);
+    void setProperty(const int nextEntryAmount);
+    
+    int getAmount() const;
+    bool isSpending() const;
     bool isValid() const;
+    std::string dateToStr() const;
+    std::string getMonthAndYearStr() const;
+    std::string toStr() const;
+    
+    bool is(const std::string &) const;
     
 private:
     Date parseDate(const std::string &) const;
-    std::string dateToStr() const;
+    std::string propertyToStr() const;
     
 private:
     Date date;
-    std::string item;
-    unsigned int spendingAmount;
+    std::string entryName;
+    unsigned int amount;
     unsigned int balance;
     bool validity;
+    EntryKind property;
 };
 
-
-
-#endif /* SpendingEntry_hpp */
 

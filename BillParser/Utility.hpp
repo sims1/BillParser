@@ -14,6 +14,8 @@
 
 std::vector<std::string> splitString(const std::string &, const std::string);
 
+bool isSubStringOf(const std::string &substring, const std::string &str);
+
 int stringToNumber(const std::string &);
 float stringToNumberWithRounding(const std::string &str);
 

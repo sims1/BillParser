@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0B2F891EFF392000737354 /* SpendingKind.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B2F871EFF392000737354 /* SpendingKind.cpp */; };
+		3D0B2F8C1F03CA5C00737354 /* PcBillParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B2F8A1F03CA5C00737354 /* PcBillParser.cpp */; };
+		3D0B2F8F1F03CDC900737354 /* CibcVisaBillParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B2F8D1F03CDC900737354 /* CibcVisaBillParser.cpp */; };
+		3D0B2F921F07D9F000737354 /* SpendingCategorizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D0B2F901F07D9F000737354 /* SpendingCategorizer.cpp */; };
 		3DCB31751EF89FFF002FB8F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB31741EF89FFF002FB8F2 /* main.cpp */; };
 		3DCB317D1EF8A07B002FB8F2 /* SpendingEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB317B1EF8A07B002FB8F2 /* SpendingEntry.cpp */; };
 		3DCB31801EF8A284002FB8F2 /* BillParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB317E1EF8A284002FB8F2 /* BillParser.cpp */; };
@@ -26,6 +30,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D0B2F871EFF392000737354 /* SpendingKind.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpendingKind.cpp; sourceTree = "<group>"; };
+		3D0B2F881EFF392000737354 /* SpendingKind.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpendingKind.hpp; sourceTree = "<group>"; };
+		3D0B2F8A1F03CA5C00737354 /* PcBillParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PcBillParser.cpp; sourceTree = "<group>"; };
+		3D0B2F8B1F03CA5C00737354 /* PcBillParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PcBillParser.hpp; sourceTree = "<group>"; };
+		3D0B2F8D1F03CDC900737354 /* CibcVisaBillParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CibcVisaBillParser.cpp; sourceTree = "<group>"; };
+		3D0B2F8E1F03CDC900737354 /* CibcVisaBillParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CibcVisaBillParser.hpp; sourceTree = "<group>"; };
+		3D0B2F901F07D9F000737354 /* SpendingCategorizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpendingCategorizer.cpp; sourceTree = "<group>"; };
+		3D0B2F911F07D9F000737354 /* SpendingCategorizer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpendingCategorizer.hpp; sourceTree = "<group>"; };
 		3DCB31711EF89FFF002FB8F2 /* BillParser */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BillParser; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DCB31741EF89FFF002FB8F2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3DCB317B1EF8A07B002FB8F2 /* SpendingEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpendingEntry.cpp; sourceTree = "<group>"; };
@@ -66,13 +78,21 @@
 		3DCB31731EF89FFF002FB8F2 /* BillParser */ = {
 			isa = PBXGroup;
 			children = (
-				3DCB31741EF89FFF002FB8F2 /* main.cpp */,
-				3DCB317B1EF8A07B002FB8F2 /* SpendingEntry.cpp */,
-				3DCB317C1EF8A07B002FB8F2 /* SpendingEntry.hpp */,
 				3DCB317E1EF8A284002FB8F2 /* BillParser.cpp */,
 				3DCB317F1EF8A284002FB8F2 /* BillParser.hpp */,
+				3D0B2F8D1F03CDC900737354 /* CibcVisaBillParser.cpp */,
+				3D0B2F8E1F03CDC900737354 /* CibcVisaBillParser.hpp */,
+				3DCB31741EF89FFF002FB8F2 /* main.cpp */,
+				3D0B2F8A1F03CA5C00737354 /* PcBillParser.cpp */,
+				3D0B2F8B1F03CA5C00737354 /* PcBillParser.hpp */,
+				3DCB317B1EF8A07B002FB8F2 /* SpendingEntry.cpp */,
+				3DCB317C1EF8A07B002FB8F2 /* SpendingEntry.hpp */,
+				3D0B2F871EFF392000737354 /* SpendingKind.cpp */,
+				3D0B2F881EFF392000737354 /* SpendingKind.hpp */,
 				3DCB31811EF8A55A002FB8F2 /* Utility.cpp */,
 				3DCB31821EF8A55A002FB8F2 /* Utility.hpp */,
+				3D0B2F901F07D9F000737354 /* SpendingCategorizer.cpp */,
+				3D0B2F911F07D9F000737354 /* SpendingCategorizer.hpp */,
 			);
 			path = BillParser;
 			sourceTree = "<group>";
@@ -134,9 +154,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DCB31831EF8A55A002FB8F2 /* Utility.cpp in Sources */,
+				3D0B2F8C1F03CA5C00737354 /* PcBillParser.cpp in Sources */,
 				3DCB317D1EF8A07B002FB8F2 /* SpendingEntry.cpp in Sources */,
 				3DCB31801EF8A284002FB8F2 /* BillParser.cpp in Sources */,
+				3D0B2F891EFF392000737354 /* SpendingKind.cpp in Sources */,
 				3DCB31751EF89FFF002FB8F2 /* main.cpp in Sources */,
+				3D0B2F8F1F03CDC900737354 /* CibcVisaBillParser.cpp in Sources */,
+				3D0B2F921F07D9F000737354 /* SpendingCategorizer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +279,7 @@
 				3DCB317A1EF89FFF002FB8F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

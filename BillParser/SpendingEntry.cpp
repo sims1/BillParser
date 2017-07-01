@@ -15,22 +15,60 @@ using namespace std;
 
 #include "Utility.hpp"
 
-SpendingEntry::SpendingEntry(const std::string &line)
+SpendingEntry::SpendingEntry(const std::string &line, const ParseKind parseKind)
+: property(NONE)
 {
-    vector<string> entryList = splitString(line, "\t");
-    if (entryList.size() != 4) {
-        validity = false;
-        return;
+    switch (parseKind) {
+        case PC: {
+            vector<string> entryList = splitString(line, "\t");
+            if (entryList.size() != 4) {
+                validity = false;
+                return;
+            }
+    
+            date = parseDate(entryList[0]);
+            entryName = entryList[1];
+            amount = stringToNumberWithRounding(entryList[2]);
+            balance = stringToNumberWithRounding(entryList[3]);
+    
+            validity = true;
+            return;
+        }
+        case CIBC_VISA: {
+            vector<string> entryList = splitString(line, "\t");
+            
+            for (auto i : entryList)
+                cout << i << "|";
+            cout << endl;
+            
+            if (entryList.size() != 5) {
+                validity = false;
+                return;
+            }
+            
+            date = parseDate(entryList[0]);
+            entryName = entryList[2];
+            if (entryList[4] == "Not applicable") {
+                amount = stringToNumberWithRounding(entryList[3]);
+                property = SPENDING;
+            } else {
+                amount = stringToNumberWithRounding(entryList[4]);
+                property = INCOME;
+            }
+                
+            balance = 0;  // not available in cibc visa bill
+            
+            validity = true;
+            return;
+        }
     }
+}
+
+void SpendingEntry::setProperty(const int nextEntryAmount)
+{
+    const int addition = nextEntryAmount + amount;
+    property = ((addition - 1) <= balance && balance <= (addition + 1)) ? INCOME : SPENDING;
     
-    date = parseDate(entryList[0]);
-    item = entryList[1];
-    spendingAmount = stringToNumberWithRounding(entryList[2]);
-    balance = stringToNumberWithRounding(entryList[3]);
-    
-    cout << dateToStr() << " | " << item << " | " << spendingAmount << " | " << balance << endl;
-    
-    validity = true;
 }
 
 SpendingEntry::Date SpendingEntry::parseDate(const string &str) const
@@ -56,6 +94,58 @@ string SpendingEntry::dateToStr() const
     stringstream ss;
     ss << date.month << "-" << date.day << "-" << date.year;
     return ss.str();
+}
+
+std::string SpendingEntry::getMonthAndYearStr() const
+{
+    stringstream ss;
+    ss << date.month << "-" << date.year;
+    return ss.str();
+}
+
+string SpendingEntry::propertyToStr() const
+{
+    switch(property) {
+        case NONE:
+            return "NONE";
+        case SPENDING:
+            return "SPENDING";
+        case INCOME:
+            return "INCOME";
+        default:
+            return "ERROR_property";
+    }
+}
+
+string SpendingEntry::toStr() const
+{
+    if (!validity)
+        return "Invalid";
+    
+    stringstream ss;
+    
+    ss << propertyToStr();
+    ss << "|" << dateToStr();
+    ss << "|" << entryName;
+    ss << "|" << amount;
+    //ss << "|" << balance;
+    
+    return ss.str();
+}
+
+bool SpendingEntry::is(const std::string &name) const
+{
+    return entryName.compare(name) == 0;
+}
+
+int SpendingEntry::getAmount() const
+{
+    return amount;
+}
+
+bool SpendingEntry::isSpending() const
+{
+    return property == SPENDING;
 }
 
 bool SpendingEntry::isValid() const

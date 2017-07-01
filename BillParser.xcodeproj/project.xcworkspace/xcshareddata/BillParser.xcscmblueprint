@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "ADB9D1D60C46E95274C6C1A243F48FBA27B43E1A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ADB9D1D60C46E95274C6C1A243F48FBA27B43E1A" : 0,
+    "A037A1B9BE4BDB6531B2FFF2323A84D5B9C9BDE8" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "BA4D6C5E-190F-47F1-AA6F-0E7897BD3774",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ADB9D1D60C46E95274C6C1A243F48FBA27B43E1A" : "BillParser\/",
+    "A037A1B9BE4BDB6531B2FFF2323A84D5B9C9BDE8" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BillParser",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BillParser.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:sims1\/Stocker-TSX-.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A037A1B9BE4BDB6531B2FFF2323A84D5B9C9BDE8"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:sims1\/BillParser.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ADB9D1D60C46E95274C6C1A243F48FBA27B43E1A"
+    }
+  ]
+}
