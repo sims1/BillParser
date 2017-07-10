@@ -37,10 +37,6 @@ SpendingEntry::SpendingEntry(const std::string &line, const ParseKind parseKind)
         case CIBC_VISA: {
             vector<string> entryList = splitString(line, "\t");
             
-            for (auto i : entryList)
-                cout << i << "|";
-            cout << endl;
-            
             if (entryList.size() != 5) {
                 validity = false;
                 return;
@@ -99,7 +95,7 @@ string SpendingEntry::dateToStr() const
 std::string SpendingEntry::getMonthAndYearStr() const
 {
     stringstream ss;
-    ss << date.month << "-" << date.year;
+    ss << date.year << "-" << date.month;
     return ss.str();
 }
 

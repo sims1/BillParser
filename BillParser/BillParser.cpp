@@ -10,101 +10,83 @@
 
 #include "CibcVisaBillParser.hpp"
 #include "PcBillParser.hpp"
+#include "SpendingCategorizer.hpp"
 #include "Utility.hpp"
 
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 using namespace std;
 
-std::vector<std::string> BillParser::fixedSpendingNames =
+void BillParser::parse(const std::string &fileName)
 {
-    // pc spending
-    "HYDRO BILL PAYMENT HYDRO OTTAWA",
-    "INSURANCE Cooperators CSI",
-    "MISCELLANEOUS PAYMENTS GOODLIFE FITNESS CLUBS",
-    "TELEPHONE BILL PAYMENT FIDO MOBILE",
-    "TELEPHONE BILL PAYMENT FIDO HOME",
-    "UTILITY BILL PAYMENT RELIANCECOMFORT"
-};
-
-std::vector<std::string> BillParser::incomeNames =
-{
-    // pc income
-    "BANK TO BANK TSF EXT TSF FR 5577594"
-};
-
-BillParser::BillParser(const std::string &fileName)
-{
-    std::vector<SpendingEntry> records;
-    
     if (isSubStringOf("pc", fileName))
-        PcBillParser::parse(fileName, records);
+        PcBillParser::parse(fileName, spendingRecords);
     else if (isSubStringOf("cibc_visa", fileName))
-        CibcVisaBillParser::parse(fileName, records);
+        CibcVisaBillParser::parse(fileName, spendingRecords);
+}
+
+void BillParser::printSpendingRecords(const bool showDetails) const
+{
+    map<string, vector<SpendingEntry>> monthToSpending = getSpendingsByMonth();
     
-    spendingRecords = records;
+    auto sortedmonthToSpending = getSorted(monthToSpending);
     
-    categorizeFixedSpendings();
-}
+    stringstream ss;
 
-void BillParser::printSpendingRecord() const
-{
-    for (const auto &it : spendingRecords)
-        cout << it.toStr() << endl;
-}
-
-std::string BillParser::getFixedSpendingName(const SpendingEntry &record) const
-{
-    for(const auto &fixedSpending : fixedSpendingNames) {
-        if (record.is(fixedSpending))
-            return fixedSpending;
+    for (const auto it : sortedmonthToSpending) {
+        ss << it.first << endl;
+        SpendingCategorizer categorizer(it.second);
+        
+        int sum;
+        const string &incomeStr = categorizer.incomesToStr(sum);
+        if (showDetails)
+            ss << "<Incomes: " << sum << ">" << endl << incomeStr;
+        else
+            ss << "Incomes: " << sum << endl;
+        
+        const string &fixedSpendingStr = categorizer.fixedSpendingsToStr(sum);
+        if (showDetails)
+            ss << "<Fixed Spendings: " << sum << ">" << endl << fixedSpendingStr;
+        else
+            ss << "Fixed Spendings: " << sum << endl;
+        
+        const string &nonFixedSpendingStr = categorizer.nonFixedSpendingsToStr(sum);
+        if (showDetails)
+            ss << "<Non-fixed Spendings: " << sum << ">" << endl << nonFixedSpendingStr;
+        else
+            ss << "Non-fixed Spendings: " << sum << endl;
+        
+        ss << categorizer.unknownSpendingsToStr();
+        
+        ss << endl;
     }
-    return "";
+    
+    cout << ss.str();
 }
 
-std::string BillParser::getIncomeName(const SpendingEntry &record) const
+vector<pair<string, vector<SpendingEntry> > > BillParser::getSorted(const map<string, vector<SpendingEntry> > &mp) const
 {
-    for(const auto &income : incomeNames) {
-        if (record.is(income))
-            return income;
+    std::vector<std::pair<string, vector<SpendingEntry> > > result;
+    for (auto it = mp.begin(); it != mp.end(); ++it) {
+        result.push_back(*it);
     }
-    return "";
-}
-
-void BillParser::categorizeFixedSpendings()
-{
-    for (const auto &record : spendingRecords) {
-        const string incomeName = getIncomeName(record);
-        if (incomeName != "") {
-            if (incomes.find(incomeName) == incomes.end())
-                incomes[incomeName] = SpendingKind(incomeName);
-            incomes[incomeName].addEntry(record);
-            continue;
+    
+    sort(result.begin(), result.end(), [=](std::pair<string, vector<SpendingEntry> >& a, std::pair<string, vector<SpendingEntry> >& b)
+        {
+            return stringToNumber(a.first) < stringToNumber(b.first);
         }
-        
-        const string fixedSpendingName = getFixedSpendingName(record);
-        if (fixedSpendingName == "") {
-            nonFixedSpendings.push_back(record);
-            continue;
-        }
-        
-        // record is fixed spending
-        if (fixedSpendings.find(fixedSpendingName) == fixedSpendings.end())
-            fixedSpendings[fixedSpendingName] = SpendingKind(fixedSpendingName);
-        
-        fixedSpendings[fixedSpendingName].addEntry(record);
-    }
+    );
+    
+    return result;
 }
 
-map<string, vector<SpendingEntry>> BillParser::categorizeSpendingsByMonths()
+map<string, vector<SpendingEntry> > BillParser::getSpendingsByMonth() const
 {
     map<std::string, vector<SpendingEntry>> result;
     
-    for (auto spending : nonFixedSpendings) {
-        if (!spending.isSpending())
-            continue;
-        
+    for (auto spending : spendingRecords) {
         const string &monthAndYear = spending.getMonthAndYearStr();
         if (result.find(monthAndYear) == result.end()) {
             result[monthAndYear] = vector<SpendingEntry>();
@@ -114,38 +96,4 @@ map<string, vector<SpendingEntry>> BillParser::categorizeSpendingsByMonths()
     
     return result;
 }
-
-string BillParser::incomesToStr() const
-{
-    stringstream ss;
-    
-    ss << "<<< Incomes >>>" << endl;
-    for(const auto &it : incomes) {
-        ss << it.second.getSummary(false);
-    }
-    return ss.str();
-}
-
-string BillParser::fixedSpendingsToStr() const
-{
-    stringstream ss;
-    
-    ss << "<<< Fixed Spendings >>>" << endl;
-    for(const auto &it : fixedSpendings) {
-        ss << it.second.getSummary(false);
-    }
-    return ss.str();
-}
-
-string BillParser::nonfixedSpendingsToStr() const
-{
-    stringstream ss;
-    
-    ss << "<<<Non Fixed Spendings >>>" << endl;
-    for(const auto &it : nonFixedSpendings) {
-        ss << it.toStr() << endl;
-    }
-    return ss.str();
-}
-
 

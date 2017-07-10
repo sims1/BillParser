@@ -6,8 +6,7 @@
 //  Copyright © 2017年 Ling. All rights reserved.
 //
 
-#ifndef BillParser_hpp
-#define BillParser_hpp
+#pragma once
 
 #include "SpendingEntry.hpp"
 #include "SpendingKind.hpp"
@@ -19,32 +18,19 @@
 class BillParser
 {
 public:
-    BillParser(const std::string &);
+    BillParser() = default;
     ~BillParser() = default;
     
-    std::string incomesToStr() const;
-    std::string fixedSpendingsToStr() const;
-    std::string nonfixedSpendingsToStr() const;
+    void parse(const std::string &);
+    void printSpendingRecords(const bool showDetails) const;
     
 private:
-    std::string getFixedSpendingName(const SpendingEntry &) const;
-    std::string getIncomeName(const SpendingEntry &) const;
+    std::map<std::string, std::vector<SpendingEntry> > getSpendingsByMonth() const;
     
-    void categorizeFixedSpendings();
+    std::vector<std::pair<std::string, std::vector<SpendingEntry> > > getSorted(const std::map<std::string, std::vector<SpendingEntry> > &) const;
     
     /// for debugging purpose
     void printSpendingRecord() const;
 private:
     std::vector<SpendingEntry> spendingRecords;
-    std::map<std::string, SpendingKind> fixedSpendings;
-    std::map<std::string, SpendingKind> incomes;
-    std::vector<SpendingEntry> nonFixedSpendings;
-    
-    std::map<std::string, std::vector<SpendingEntry> > categorizeSpendingsByMonths();
-    
-private:
-    static std::vector<std::string> fixedSpendingNames;
-    static std::vector<std::string> incomeNames;
 };
-
-#endif /* BillParser_hpp */
