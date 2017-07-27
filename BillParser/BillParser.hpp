@@ -33,4 +33,7 @@ private:
     void printSpendingRecord() const;
 private:
     std::vector<SpendingEntry> spendingRecords;
+    
+    // x - 990
+    static const int retainedSum = 3533;
 };

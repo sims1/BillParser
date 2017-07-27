@@ -15,6 +15,7 @@
 #include <vector>
 
 enum NonFixedSpendingKind {
+    BEAUTY,
     CAR,
     CASH,
     CLOTHES,
@@ -23,7 +24,9 @@ enum NonFixedSpendingKind {
     GAS,
     GROCERY,
     IMMIGRATION,
+    PET,
     RESTAURANT,
+    UNKNOWN
 };
 
 class SpendingCategorizer

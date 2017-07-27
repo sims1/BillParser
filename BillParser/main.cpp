@@ -21,7 +21,7 @@ int main(int argc, const char * argv[]) {
     billParser.parse(pc2017);
     billParser.parse(cibc2017);
     
-    billParser.printSpendingRecords(true);
+    billParser.printSpendingRecords(false);
  
     return 0;
 }

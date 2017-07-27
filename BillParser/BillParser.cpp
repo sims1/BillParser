@@ -34,36 +34,44 @@ void BillParser::printSpendingRecords(const bool showDetails) const
     auto sortedmonthToSpending = getSorted(monthToSpending);
     
     stringstream ss;
-
+    stringstream unknownss;
+    
     for (const auto it : sortedmonthToSpending) {
         ss << it.first << endl;
         SpendingCategorizer categorizer(it.second);
         
         int sum;
+        int retained = retainedSum;
         const string &incomeStr = categorizer.incomesToStr(sum);
+        retained += sum;
         if (showDetails)
             ss << "<Incomes: " << sum << ">" << endl << incomeStr;
         else
             ss << "Incomes: " << sum << endl;
         
         const string &fixedSpendingStr = categorizer.fixedSpendingsToStr(sum);
+        retained -= sum;
         if (showDetails)
             ss << "<Fixed Spendings: " << sum << ">" << endl << fixedSpendingStr;
         else
             ss << "Fixed Spendings: " << sum << endl;
         
         const string &nonFixedSpendingStr = categorizer.nonFixedSpendingsToStr(sum);
+        retained -= sum;
         if (showDetails)
             ss << "<Non-fixed Spendings: " << sum << ">" << endl << nonFixedSpendingStr;
         else
             ss << "Non-fixed Spendings: " << sum << endl;
         
-        ss << categorizer.unknownSpendingsToStr();
+        ss << "==> Retained: " << retained << endl;
+        
+        unknownss << categorizer.unknownSpendingsToStr();
         
         ss << endl;
     }
     
     cout << ss.str();
+    cout << "<Unknown Spendings>" << endl << unknownss.str() << endl;
 }
 
 vector<pair<string, vector<SpendingEntry> > > BillParser::getSorted(const map<string, vector<SpendingEntry> > &mp) const
